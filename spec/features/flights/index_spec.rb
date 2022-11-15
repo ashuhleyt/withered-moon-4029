@@ -37,10 +37,19 @@ RSpec.describe 'flights index page' do
       expect(page).to have_content(@passenger1.name)
       expect(page).to have_content(@passenger2.name)
       expect(page).to have_content(@passenger3.name)
-      save_and_open_page
       expect(page).to have_content(@passenger4.name)
       expect(page).to have_content(@passenger5.name)
       expect(page).to have_content(@passenger6.name)
+    end
+
+    it 'next to passenger name, I see a link to remove them from the flight' do 
+      expect(page).to have_link("Remove #{@passenger1.name}")
+    end
+
+    it 'when I click that link, am taken to flights index page, no longer see that pass name on the flight' do 
+      click_link "Remove #{@passenger1.name}"
+      expect(current_path).to eq("/flights")
+      expect(page).to_not have_content(@passenger1.name)
     end
   end
 end
